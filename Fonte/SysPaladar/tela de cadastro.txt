@@ -1,0 +1,19 @@
+	<br>
+	<br>
+		 <form action="usuarioContrller.do" method="post">
+		   <label>Nome:</label> <input size="40" placeholder="nome usuário" type="text" name="nome" value="${requestScope.usuario.nome}"/> <br><br>
+		   <label>E-mail:</label> <input size="40" placeholder="@email.com" type="text" name="email" value="${requestScope.usuario.email}"/> <br><br>
+		   <label>Telefone:</label> <input type="text" name="telefone" value="${requestScope.usuario.telefone}"/> <br><br>
+		   <label>Login:</label> <input type="text" name="login"value="${requestScope.usuario.login}"/> <br><br>
+		   <label>Senha:</label> <input type="password" name="senha" value="${requestScope.usuario.senha}" /><br><br>
+		   <input type="submit" value="Salvar" id="listar">
+		   <input type="text" readonly="readonly" name="id" class="idoculto" value="${requestScope.usuario.idContato}">
+		 </form>
+	 
+	 <br>
+	 <div class="conteiner">
+	 <div class="panel panel-default">
+	 <div class="panel-heading"><strong>Lista de Usuarios</strong></div>
+	 <a href="usuarioContrller.do?acao=listar"> <input type="button" id="listar" value="Listar"/></a>
+	 <br/>
+	 <br/>

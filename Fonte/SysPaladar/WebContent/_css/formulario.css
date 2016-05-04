@@ -1,16 +1,6 @@
 @CHARSET "UTF-8";
 
-body {
-		background: url("../-imagem/fundo.png") no-repeat;
-	    -moz-background-size: 100% 100%;
-	    -webkit-background-size: 100% 100%;
-	    background-size: 100% 200%;} 
-}
-#imagem-paladar{
-background-image: url("../-imagem/paladar.png") no-repeat; /* Insere a imagem */
-width: 100px;    /* Faz a largura ficar igual a da largura da imagem de exemplo */
-height: 100px;   /* Faz a altura ficar igual a da altura da imagem de exemplo */
-}
+
 #divcorpo {
 	background-color: rgba(0,0,0,0.3);
 	width: 800px;
@@ -20,22 +10,48 @@ height: 100px;   /* Faz a altura ficar igual a da altura da imagem de exemplo */
 	padding: 20px;
 	color: white;
 	border: 1px solid white;
+	size: 100;
 }
 th{
 	padding: 10px 20px;
 }
-
 #listar{
 font-size: 16pt;
 padding: 2px 10px;	
 }
-
 .panel-heading{
 	text-align: center;
 	font-size: 30px;
 	font-family: sans-serif;
 }
-
 .idoculto{
 	background-color: rgba(0,0,0,0.0);
 }
+#imgpaladar{
+	width:150px;
+	height:150px;
+	overflow:hidden;
+	position:absolute;
+	float: right;
+	margin-left: 900px;
+	margin-top: 100px; 
+}
+#nomepratos{	/*Label do nome dos pratos e descricao*/
+  background-color: #FFFFFF;
+  color: #000000;
+  padding: 1px;
+  font-family: arial;
+  font-style: normal;
+  font-weight: normal;
+  text-align: justify;
+  text-decoration: none;
+  text-transform: none;
+}
+body {
+		background: url("../-imagem/fundo.png") no-repeat;
+	    -moz-background-size: 100% 100%;
+	    -webkit-background-size: 100% 100%;
+	    background-size: 100% 200%;} 
+}	
+
+

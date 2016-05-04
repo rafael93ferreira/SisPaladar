@@ -1,8 +1,6 @@
 package br.com.jdbc;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class Conexao {
 	//com static envocamos o metodo sem estancia a classe!!
@@ -12,10 +10,10 @@ public class Conexao {
 			Class.forName("org.postgresql.Driver");
 //força o carregamento do Driver obs(tratar exceção com  catch (ClassNotFoundException e))
 			String url = "jdbc:postgresql://localhost:5432/cadastro";
-			String usuario = "postgres1";
-			String senha = "1";
+			String usuario = "postgres";
+			String senha = "postgres";
 			
-			con = DriverManager.getConnection(url,"postgres","postgres");
+			con = DriverManager.getConnection(url,usuario,senha);
 		    System.out.println("Conexão realizada com sucesso!");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
