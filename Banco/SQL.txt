@@ -1,0 +1,49 @@
+//--------------------------------------------
+Criando Tabela USUÁRIOS
+//--------------------------------------------
+
+CREATE TABLE USUARIOS (
+CODIGO SERIAL NOT NULL PRIMARY KEY,
+ENDERECO varchar(20),
+NOME varchar(20),
+EMAIL varchar(20),
+LOGIN varchar(20) NOT NULL,
+SENHA varchar(20) NOT NULL
+);
+
+
+
+Inserindo dados na tabela USUARIOS
+//----------------------------------------------
+INSERT INTO USUARIOS (NOME,LOGIN,SENHA,EMAIL,ENDERECO)
+VALUES ('BRUNO',1,1,'TESTE@TESTE','CASA TESTE')
+//----------------------------------------------
+
+
+Selecionando todos os USUARIOS
+//----------------------------------------------
+SELECT * FROM USUARIOS 
+ORDER BY CODIGO
+//----------------------------------------------
+
+
+Criação da Tabela PRATOS
+//----------------------------------------------
+CREATE TABLE IF NOT EXISTS PRATOS (
+  CODIGO SERIAL NOT NULL PRIMARY KEY,
+  NOME varchar(40) DEFAULT NULL,
+  PRECO decimal(10,2) DEFAULT NULL,
+  DISPONIVEL varchar(1) DEFAULT NULL,
+  DESCRICAO varchar(50) DEFAULT NULL,
+  IMAGEM  OID
+)
+//----------------------------------------------
+
+
+Inserção de dados na tabela PRATOS
+//----------------------------------------------
+INSERT INTO PRATOS (NOME,PRECO,DISPONIVEL,DESCRICAO,IMAGEM)
+VALUES ('PRATO DO DIA',23.50,'T','ARROZ, FEIJAO, SALADA, BIFE',lo_import('c:/1.png'))
+
+INSERT INTO PRATOS (NOME,PRECO,DISPONIVEL,DESCRICAO,IMAGEM)
+VALUES ('FEIJOADA',32.00,'F','FEIJOADA,ARROZ,CARNE',lo_import('c:/1.JPG'))

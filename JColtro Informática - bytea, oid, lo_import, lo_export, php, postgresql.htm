@@ -1,0 +1,110 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<title>JColtro Inform&aacute;tica - bytea, oid, lo_import, lo_export, php, postgresql</title>
+<style type="text/css">
+<!--
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10pt;
+	font-weight: normal;
+	color: #000000;
+	text-align: justify;
+	margin-left: 10pt;
+	margin-top: 10pt;
+	margin-right: 10pt;
+	margin-bottom: 10pt;
+}
+.style1 {
+	font-size: 20pt;
+	font-weight: bold;
+}
+.titulo {
+	font-weight: bold;
+	text-decoration: underline;
+}
+.tabela {
+	border: 1px solid #000000;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 9pt;
+}
+.style4 {font-size: 9pt}
+.style5 {color: #990000}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" vlink="#0000FF" link="#0000FF">
+<p align="justify"><span class="style1">Armazenando Dados Bin&aacute;rios ( Imagens )<br>
+</span>por Rog&eacute;rio Ribeiro Mac&ecirc;do</p>
+<p>O PostgreSQL nos prov&ecirc; duas formas distintas de armazenar dados bin&aacute;rios :</p>
+<ol>
+  <li>bytea ( armazenamento de cadeias bin&aacute;rias ) e </li>
+  <li>oid ( large objects );</li>
+</ol>
+<p>O <strong>bytea</strong> ir&aacute; armazenar a informa&ccedil;&atilde;o bin&aacute;ria juntamente com cada registro da tabela, enquanto que o tipo <strong>oid</strong> ( large objects ), que n&atilde;o &eacute; exatamente um tipo e sim um forma de armazenamento, ir&aacute; armazenar o dado separadamente a cada registro, pois o tamanho m&aacute;ximo de cada coluna &eacute; de 8192 bytes. Mas esse armazenamento e a recuperaa&ccedil;&atilde;o deste dado &eacute; transparente para o usu&aacute;rio.</p>
+<table width="60%"  border="0" align="center" cellpadding="3" cellspacing="0">
+  <tr>
+    <td align="center" valign="middle" bgcolor="#CCCCCC"><p class="style4">CREATE TABLE imagens ( Descricao VARCHAR(20), Imagem BYTEA );</p>
+    <p class="style4">CREATE TABLE objetos ( Descricao VARCHAR(20), Objeto OID );</p></td>
+  </tr>
+</table>
+<p>1 . <span class="titulo">Usando OID</span></p>
+<p>O tipo OID n&atilde;o serve exclusivamente para armazenar imagens, como foi dito posso armazenar no mesmo desde imagens at&eacute; arquivos execut&aacute;veis, documentos word, pdf, etc. </p>
+<p>Via SQL n&oacute;s iremos gravar este arquivos bin&aacute;rios utilizando duas fun&ccedil;&otilde;es : lo_import(&lt;caminho do objeto&gt;) e lo_export(&lt;campo&gt;,&lt;caminho onde armazenar&gt;). Aqui deveremos estar atentos pois a forma de representar o caminho do objeto em plataforma Unix e Windows &eacute; diferente. Nos exemplos mostrarei as duas formas.</p>
+<p>1.1 <span class="titulo">Inserindo a imagem ou outro objeto bin&aacute;rio </span></p>
+<blockquote>
+  <p>1.1.2 <span class="titulo">Objeto Bin&aacute;rio ( no exemplo um arquivo compactado )</span> </p>
+  <blockquote>
+    <p><em>Unix</em> : INSERT INTO objetos VALUES ('arquivo: pgsql.zip',lo_import('c:/pgsql.zip'));<br>
+      <em>Windows</em> : INSERT INTO objetos VALUES ('arquivo: pgsql.zip',lo_import('c:/pgsql.zip'));</p>
+  </blockquote>
+  <p>1.1.2 <span class="titulo">Imagem</span></p>
+  <blockquote>
+    <p><em>Unix</em> : INSERT INTO objetos VALUES ('arquivo: linux.gif',lo_import('c:/linux.gif'));<br>
+      <em>Windows</em> : INSERT INTO objetos VALUES ('arquivo: linux.gif',lo_import('c:/linux.gif'));</p>
+  </blockquote>
+</blockquote>
+<p>1.2 <span class="titulo">Obtendo os dados</span></p>
+<p>Para que possamos manipular este dado, ou seja, para seja poss&iacute;vel a exibi&ccedil;&atilde;o em uma p&aacute;gina HTML ou em um formul&aacute;rio no Delphi de uma imagem, &eacute; necess&aacute;rio a exporta&ccedil;&atilde;o deste dado. Pois n&atilde;o ser&aacute; poss&iacute;vel manipula-lo diretamente no campo. Ent&atilde;o o que temos que fazer e exportar o dados para um arquivo e com isso exib&iacute;-lo. </p>
+<p>A exporta&ccedil;&atilde;o tem a mesma sintaxe independente se &eacute; uma imagem ou um arquivo compactado.</p>
+<blockquote>
+  <p>1.2.3 <span class="titulo">Exportando</span></p>
+  <blockquote>
+    <p>Unix: SELECT lo_export(objeto,'/linux_copia.gif') FROM objetos WHERE descricao = 'arquivo: linux.gif';<br>
+      Windows : SELECT lo_export(objeto,'c:/linux_copia.gif') FROM objetos WHERE descricao = 'arquivo: linux.gif';</p>
+  </blockquote>
+</blockquote>
+<p>1.3 <strong>Erros</strong></p>
+<p>Se utilizar os comandos abaixo no Windows :</p>
+<ul>
+  <li>INSERT INTO objetos VALUES ('arquivo compactado',lo_import('/arquivos/teste.zip'));
+    <ul>
+      <li class="style5">ERROR: lo_import: can't open unix file &quot;/pgsql.zip&quot;: No such file or directory      </li>
+    </ul>
+  </li>
+  <li>INSERT INTO objetos VALUES ('arquivo compactado',lo_import('c:\pgsql.zip'));
+    <ul>
+      <li class="style5">ERROR: lo_import: can't open unix file &quot;c:pgsql.zip&quot;: No such file or directory</li>
+    </ul>
+  </li>
+</ul>
+<p>2 <span class="titulo">Usando bytea </span></p>
+<p>Para utilizar este tipo de dados atrav&eacute;s da interface psql ou qualquer outro mecanismo que execute instru&ccedil;&otilde;es SQL, ainda n&atilde;o &eacute; poss&iacute;vel. Neste caso a aplica&ccedil;&atilde;o cliente &eacute; que dever&aacute; fazer a convers&atilde;o e armazenar a imagem.</p>
+<p>3 . <span class="titulo">Exemplo em PHP </span></p>
+<blockquote>
+  <p>4.1 <span class="titulo">Bytea</span></p>
+  <p>Voc&ecirc; pode baixar o <a href="arquivos/catalogo_imagens.zip">c&oacute;digo fonte</a> ou ent&atilde;o ver o exemplo <a href="catalogo_imagens.php">funcionando</a>. </p>
+</blockquote>
+<p>4. <span class="titulo">Finalizando</span></p>
+<p>O armazenamento de objetos grandes, sejam imagens, arquivos ou qualquer outro bin&aacute;rio ser&aacute; melhor gerenciado se armazenarmos apenas o caminh onde este objeto est&aacute;. Pois adicion&aacute;-lo ao banco causa o incoveniente de aumento do tamanho do banco.</p>
+<p>Dese-se estar atento tamb&eacute;m para no caso de backup ( pg_dump ) pois para o tipo OID s&atilde;o necess&aacute;rios procedimentos adicionais para gerar a c&oacute;pia dos dados. </p>
+<p>&nbsp; </p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
